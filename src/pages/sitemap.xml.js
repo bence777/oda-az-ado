@@ -12,6 +12,8 @@ const routes = [
   "/vezetoi-informacio",
   "/konyvelovaltas",
   "/szakmai-partnerseg",
+  "/adatkezelesi-tajekoztato",
+  "/suti-tajekoztato",
 ];
 
 export async function getServerSideProps({ res }) {

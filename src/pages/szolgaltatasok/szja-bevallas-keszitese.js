@@ -1,7 +1,7 @@
 export async function getServerSideProps() {
   return {
     redirect: {
-      destination: "/szolgaltatasok#kapcsolodo-feladatok",
+      destination: "/szolgaltatasok#szja-bevallas",
       statusCode: 301,
     },
   };

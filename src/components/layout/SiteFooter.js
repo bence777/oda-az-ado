@@ -1,6 +1,7 @@
 import { Box, Container, Flex, Grid, Text } from "@chakra-ui/react";
 import design from "../../design/system";
 import { offices } from "../../data/contact";
+import { openCookieSettings } from "../../lib/cookieConsent";
 
 const pageLinks = [
   ["Szolgáltatások", "/szolgaltatasok"],
@@ -104,7 +105,16 @@ export default function SiteFooter() {
             © 2026 ODA-AZ-ADÓ Könyvviteli Kft.
           </Text>
 
-          <Flex gap={6}>
+          <Flex gap={{ base: 3, sm: 6 }} wrap="wrap">
+            <Text as="a" href="/adatkezelesi-tajekoztato" fontSize="9px" color="rgba(255,255,255,.34)" _hover={{ color: design.colors.champagne }}>
+              Adatkezelés
+            </Text>
+            <Text as="a" href="/suti-tajekoztato" fontSize="9px" color="rgba(255,255,255,.34)" _hover={{ color: design.colors.champagne }}>
+              Süti tájékoztató
+            </Text>
+            <Text as="button" type="button" onClick={openCookieSettings} bg="transparent" border="0" p="0" fontSize="9px" color="rgba(255,255,255,.34)" cursor="pointer" _hover={{ color: design.colors.champagne }}>
+              Süti beállítások
+            </Text>
             <Text as="a" href="/kapcsolat" fontSize="9px" color="rgba(255,255,255,.34)" _hover={{ color: design.colors.champagne }}>
               Kapcsolat
             </Text>

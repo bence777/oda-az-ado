@@ -16,7 +16,7 @@ export default function SupportServicesSection() {
           </Box>
 
           <Grid templateColumns={{ base: "1fr", md: "1.08fr .92fr" }} gap={{ base: 6, md: 8 }}>
-            <Box gridRow={{ md: "span 2" }} bg={design.colors.ink} color="#fff" p={{ base: 7, md: 9 }} minH={{ md: "440px" }} display="flex" flexDirection="column" justifyContent="space-between">
+            <Box id="hatosagi-kepviselet" scrollMarginTop="120px" gridRow={{ md: "span 2" }} bg={design.colors.ink} color="#fff" p={{ base: 7, md: 9 }} minH={{ md: "440px" }} display="flex" flexDirection="column" justifyContent="space-between">
               <Box>
                 <Text fontSize="9px" letterSpacing=".13em" textTransform="uppercase" color={design.colors.champagne}>Szükség esetén</Text>
                 <Heading as="h3" mt={5} fontSize={{ base: "32px", md: "42px" }} fontWeight="500" lineHeight="1.02" letterSpacing="-.05em">{supportingServices[1].title}</Heading>
@@ -24,13 +24,13 @@ export default function SupportServicesSection() {
               <Text maxW="470px" fontSize="13px" lineHeight="1.8" color="rgba(255,255,255,.55)">{supportingServices[1].text}</Text>
             </Box>
 
-            <Box p={{ base: 6, md: 7 }} bg={design.colors.offWhite} minH={{ md: "210px" }}>
+            <Box id="szja-bevallas" scrollMarginTop="120px" p={{ base: 6, md: 7 }} bg={design.colors.offWhite} minH={{ md: "210px" }}>
               <Text fontSize="9px" color={design.colors.champagne}>Magánszemély</Text>
               <Text mt={5} fontSize={{ base: "23px", md: "27px" }} fontWeight="600" letterSpacing="-.04em" color={design.colors.ink}>{supportingServices[0].title}</Text>
               <Text mt={4} fontSize="11px" lineHeight="1.72" color={design.colors.muted}>{supportingServices[0].text}</Text>
             </Box>
 
-            <Box p={{ base: 6, md: 7 }} border="1px solid" borderColor={design.colors.border} minH={{ md: "210px" }}>
+            <Box id="szabalyzatkeszites" scrollMarginTop="120px" p={{ base: 6, md: 7 }} border="1px solid" borderColor={design.colors.border} minH={{ md: "210px" }}>
               <Text fontSize="9px" color={design.colors.champagne}>Működési háttér</Text>
               <Text mt={5} fontSize={{ base: "23px", md: "27px" }} fontWeight="600" letterSpacing="-.04em" color={design.colors.ink}>{supportingServices[2].title}</Text>
               <Text mt={4} fontSize="11px" lineHeight="1.72" color={design.colors.muted}>{supportingServices[2].text}</Text>

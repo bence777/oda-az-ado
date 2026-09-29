@@ -1,7 +1,7 @@
 export async function getServerSideProps() {
   return {
     redirect: {
-      destination: "/kapcsolat#ajanlatkeres",
+      destination: "/kapcsolat",
       statusCode: 301,
     },
   };

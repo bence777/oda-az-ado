@@ -44,23 +44,6 @@ function SelectField({ label, name, options, required = true }) {
   );
 }
 
-function buildMailBody(values) {
-  const rows = [
-    ["Név", values.name],
-    ["Cégnév", values.company],
-    ["E-mail", values.email],
-    ["Telefonszám", values.phone],
-    ["Adószám", values.taxId],
-    ["Havi átlagos bizonylatszám", values.monthlyDocuments],
-    ["Bankszámlák száma", values.bankAccounts],
-    ["Munkavállalók száma", values.employees],
-    ["Külföldi / EU-s ügyletek", values.foreignTransactions],
-    ["Érdeklődés oka", values.reason],
-    ["Tervezett kezdés", values.plannedStart],
-    ["Megjegyzés", values.message],
-  ];
-  return rows.map(([label, value]) => `${label}: ${value || "-"}`).join("\n");
-}
 
 export default function ContactForm() {
   const startedAt = useRef(Date.now());
@@ -96,14 +79,7 @@ export default function ContactForm() {
       }
 
       const result = await response.json().catch(() => ({}));
-      if (result?.code !== "delivery_not_configured") {
-        throw new Error(result?.message || "send_failed");
-      }
-
-      const subject = `Ajánlatkérés${values.company ? ` – ${values.company}` : ""}`;
-      window.location.href = `mailto:info@odaazado.hu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(buildMailBody(values))}`;
-      setStatus("fallback");
-      setMessage("A szerveroldali kézbesítés még nincs beállítva, ezért megnyitottuk a levelezőprogramját az adatokkal.");
+      throw new Error(result?.message || "send_failed");
     } catch (error) {
       setStatus("error");
       setMessage("Az űrlapot most nem sikerült elküldeni. Kérjük, írjon az info@odaazado.hu címre.");
@@ -144,7 +120,7 @@ export default function ContactForm() {
         <label style={{ display: "flex", gap: "10px", alignItems: "flex-start", cursor: "pointer" }}>
           <input type="checkbox" name="privacy" required style={{ marginTop: "3px" }} />
           <span style={{ fontSize: "10px", lineHeight: 1.65, color: design.colors.muted }}>
-            Hozzájárulok, hogy a megadott adataimat a kapcsolatfelvétel és az ajánlatadás céljából kezeljék.
+            Elolvastam és tudomásul vettem az <a href="/adatkezelesi-tajekoztato" target="_blank" rel="noreferrer" style={{ textDecoration: "underline", textUnderlineOffset: "3px" }}>Adatkezelési tájékoztatót</a>.
           </span>
         </label>
       </Box>

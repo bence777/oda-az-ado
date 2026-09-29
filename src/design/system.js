@@ -16,7 +16,7 @@ const design = {
   },
 
   fonts: {
-    sans: '"Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+    sans: 'var(--font-instrument-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   },
 
   sizes: {
