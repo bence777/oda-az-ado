@@ -8,6 +8,7 @@ const pageLinks = [
   ["Rólunk", "/rolunk"],
   ["Helyszínek", "/helyszinek"],
   ["Könyvelőváltás", "/konyvelovaltas"],
+  ["Szakmai partnerség", "/szakmai-partnerseg"],
   ["Kapcsolat", "/kapcsolat"],
 ];
 

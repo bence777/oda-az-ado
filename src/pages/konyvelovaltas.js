@@ -5,7 +5,7 @@ const service = {
   number: "→",
   name: "Könyvelőváltás",
   eyebrow: "Rendezett átadás-átvétel",
-  title: "Könyvelőt váltana 2027-től?",
+  title: "Könyvelőváltáson gondolkodik?",
   description:
     "A könyvelőváltás akkor működik jól, ha az átadás-átvétel nem kapkodás, hanem előre felépített folyamat. A jelenlegi helyzet áttekintésétől az új rendszerre való átállásig.",
   locations: "Debrecen · Budapest · online országosan",
@@ -46,15 +46,15 @@ const service = {
   ],
   fitTitle: "Mikor aktuális a könyvelőváltás?",
   fit: [
-    "Ha 2027-től új könyvelővel szeretne dolgozni.",
+    "Ha új könyvelővel szeretne dolgozni, és rendezett átadást szeretne.",
     "Ha a jelenlegi folyamat nehezen követhető vagy kevés visszajelzést ad.",
     "Ha a vállalkozás növekedése miatt több vezetői információra és szakmai egyeztetésre van szükség.",
     "Ha digitálisabb, rendezettebb dokumentumkezelésre szeretne átállni.",
   ],
   ctaTitle: "Beszéljünk a könyvelőváltásról.",
   ctaText: "Az első egyeztetésen áttekintjük a váltás tervezett időpontját, a jelenlegi helyzetet és az átadáshoz szükséges következő lépéseket.",
-  seoTitle: "Könyvelőváltás 2027 | Oda-Az-Adó",
-  seoDescription: "Könyvelőt váltana 2027-től? Egyeztetés, helyzetfelmérés, dokumentumok, átadás-átvétel, ellenőrzés és rendezett átállás az új könyvelési rendszerre.",
+  seoTitle: "Könyvelőváltás vállalkozásoknak | Oda-Az-Adó",
+  seoDescription: "Könyvelőváltás rendezett átadás-átvétellel: egyeztetés, helyzetfelmérés, dokumentumok átvétele, nyitóállapot-ellenőrzés és átállás.",
 };
 
 export default function AccountantSwitchPage() {

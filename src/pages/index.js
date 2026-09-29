@@ -15,10 +15,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Oda-Az-Adó | Könyvelés Debrecenben és online</title>
+        <title>Oda-Az-Adó | Könyvelés Budapesten, Debrecenben és online</title>
         <meta name="description" content="Könyvelés, adótanácsadás, bérszámfejtés és vezetői információ vállalkozásoknak Debrecenben, Budapesten és online országosan." />
         <link rel="canonical" href="https://www.odaazado.hu/" />
-        <meta property="og:title" content="Oda-Az-Adó | Könyvelés Debrecenben és online" />
+        <meta property="og:title" content="Oda-Az-Adó | Könyvelés Budapesten, Debrecenben és online" />
         <meta property="og:description" content="Könyvelés, adótanácsadás, bérszámfejtés és vezetői információ vállalkozásoknak Debrecenben, Budapesten és online országosan." />
         <meta property="og:url" content="https://www.odaazado.hu/" />
         <meta property="og:type" content="website" />

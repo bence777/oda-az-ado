@@ -36,10 +36,7 @@ export default function AboutHero() {
               letterSpacing="-.068em"
               color={design.colors.ink}
             >
-              A jó könyvelés mögött nem kapkodás, hanem{" "}
-              <Box as="span" color={design.colors.champagne}>
-                rendszer van.
-              </Box>
+              2010 óta a vállalkozások pénzügyi hátterén dolgozunk.
             </Heading>
           </Box>
 
@@ -50,9 +47,9 @@ export default function AboutHero() {
               letterSpacing="-.02em"
               color={design.colors.graphite}
             >
-              Több mint egy évtizede dolgozunk vállalkozások könyvelésén és
-              adózásán. A tapasztalatunkat ma olyan működés támogatja, amelyben
-              az információk, feladatok és határidők követhetők maradnak.
+              A könyvelés mellett egyre nagyobb hangsúlyt kap a strukturált,
+              digitális működés és az, hogy a könyvelésből a vállalkozás vezetője
+              számára is érthető, használható információ szülessen.
             </Text>
 
             <Text

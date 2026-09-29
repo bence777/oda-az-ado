@@ -19,7 +19,7 @@ export default function ExperienceSection() {
               letterSpacing="-.075em"
               color={design.colors.champagne}
             >
-              10+
+              15+
             </Text>
             <Text
               mt={5}
@@ -42,7 +42,7 @@ export default function ExperienceSection() {
               letterSpacing="-.055em"
               color={design.colors.ink}
             >
-              Több mint egy évtized ugyanazon az oldalon: a vállalkozásokén.
+              15+ év szakmai tapasztalat, konkrét szakmai háttérrel.
             </Heading>
 
             <Grid
@@ -51,14 +51,13 @@ export default function ExperienceSection() {
               gap={{ base: 6, md: 12 }}
             >
               <Text fontSize="15px" lineHeight="1.78" color={design.colors.graphite}>
-                Az évek alatt változtak a szabályok, a technológia és az ügyfelek
-                elvárásai. A pontos munka, az elérhetőség és a felelősség azonban
-                nem lett kevésbé fontos.
+                Okleveles közgazdász · számvitel mesterszak, mérlegképes könyvelő
+                és adótanácsadó szakmai háttérrel dolgozunk.
               </Text>
               <Text fontSize="14px" lineHeight="1.78" color={design.colors.muted}>
-                A könyvelés számunkra nem dokumentumok lezárását jelenti. Olyan
-                pénzügyi hátteret építünk, amelyből a vállalkozás vezetője érthető,
-                használható információt kap.
+                A szakmai munkát 5 M Ft/káresemény felelősségbiztosítás támogatja.
+                A cél nem pusztán a kötelező feladatok teljesítése, hanem a rendezett,
+                kontrollált és érthető pénzügyi háttér.
               </Text>
             </Grid>
           </Box>

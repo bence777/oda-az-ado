@@ -16,11 +16,11 @@ export default function AboutPage() {
         <title>Rólunk | Oda-Az-Adó Könyvelőiroda</title>
         <meta
           name="description"
-          content="Több mint 10 év könyvelési és adózási tapasztalat, szakmai felelősségbiztosítás, személyes debreceni jelenlét és online országos együttműködés."
+          content="15+ év szakmai tapasztalat, okleveles közgazdász és számvitel mesterszakos háttér, mérlegképes könyvelői és adótanácsadói képesítés, 5 M Ft/káresemény felelősségbiztosítás."
         />
         <link rel="canonical" href="https://www.odaazado.hu/rolunk" />
         <meta property="og:title" content="Rólunk | Oda-Az-Adó Könyvelőiroda" />
-        <meta property="og:description" content="Több mint 10 év könyvelési és adózási tapasztalat, szakmai felelősségbiztosítás, személyes debreceni jelenlét és online országos együttműködés." />
+        <meta property="og:description" content="15+ év szakmai tapasztalat, okleveles közgazdász és számvitel mesterszakos háttér, mérlegképes könyvelői és adótanácsadói képesítés, 5 M Ft/káresemény felelősségbiztosítás." />
         <meta property="og:url" content="https://www.odaazado.hu/rolunk" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="hu_HU" />

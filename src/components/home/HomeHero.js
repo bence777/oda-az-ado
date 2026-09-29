@@ -116,11 +116,13 @@ export default function HomeHero() {
               letterSpacing="-0.022em"
               color={design.colors.graphite}
             >
-              Pontos könyvelés és szakmai támogatás azoknak, akik
-              nemcsak tudni, hanem{" "}
-              <Box as="span" color={design.colors.muted}>
-                érteni is szeretnék a számokat.
-              </Box>
+              Pontos könyvelés, adószakmai támogatás és vezetői információ
+              azoknak a vállalkozásoknak, amelyek nemcsak tudni szeretnék, mi
+              történt, hanem előre is szeretnének tervezni.
+            </Text>
+
+            <Text mt={6} fontSize="10px" fontWeight="600" letterSpacing=".12em" textTransform="uppercase" color={design.colors.muted}>
+              Budapest · Debrecen · online országosan
             </Text>
 
             <Flex mt={{ base: 7, md: 9 }} align="center" gap={6} wrap="wrap">

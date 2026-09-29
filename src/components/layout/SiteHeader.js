@@ -5,6 +5,7 @@ import design from "../../design/system";
 const navItems = [
   { label: "Szolgáltatások", href: "/szolgaltatasok" },
   { label: "Működésünk", href: "/mukodesunk" },
+  { label: "Könyvelőváltás", href: "/konyvelovaltas" },
   { label: "Rólunk", href: "/rolunk" },
   { label: "Helyszínek", href: "/helyszinek" },
 ];

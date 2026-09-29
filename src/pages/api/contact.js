@@ -29,7 +29,22 @@ function isEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+const allowed = {
+  monthlyDocuments: ["0–50", "51–100", "101–250", "251–500", "500+"],
+  bankAccounts: ["1", "2", "3", "4+"],
+  employees: ["0–3", "4–10", "11–25", "26+"],
+  foreignTransactions: ["Nincs", "EU-n belüli ügyletek", "EU-n kívüli ügyletek", "Mindkettő"],
+  reason: ["Könyvelőt váltanék", "Új vállalkozás", "Meglévő vállalkozás új könyvelőt keres", "Könyvelési szolgáltatás bővítése", "Adótanácsadás", "Egyéb"],
+  plannedStart: ["Azonnal", "1–3 hónapon belül", "2027. január 1-től", "Később"],
+};
+
+function isAllowed(key, value) {
+  return allowed[key]?.includes(value);
+}
+
 export default async function handler(req, res) {
+  res.setHeader("Cache-Control", "no-store");
+
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ message: "Method not allowed" });
@@ -53,13 +68,24 @@ export default async function handler(req, res) {
     company: clean(body.company, 200),
     email: clean(body.email, 200),
     phone: clean(body.phone, 80),
-    intent: clean(body.intent, 120),
+    taxId: clean(body.taxId, 60),
+    monthlyDocuments: clean(body.monthlyDocuments, 40),
+    bankAccounts: clean(body.bankAccounts, 20),
+    employees: clean(body.employees, 20),
+    foreignTransactions: clean(body.foreignTransactions, 80),
+    reason: clean(body.reason, 120),
+    plannedStart: clean(body.plannedStart, 80),
     message: clean(body.message, 5000),
   };
 
   const privacyAccepted = body.privacy === "on" || body.privacy === true;
+  const requiredOk = privacyAccepted && payload.name && payload.company && payload.email && payload.phone && payload.taxId &&
+    isEmail(payload.email) && isAllowed("monthlyDocuments", payload.monthlyDocuments) &&
+    isAllowed("bankAccounts", payload.bankAccounts) && isAllowed("employees", payload.employees) &&
+    isAllowed("foreignTransactions", payload.foreignTransactions) && isAllowed("reason", payload.reason) &&
+    isAllowed("plannedStart", payload.plannedStart);
 
-  if (!privacyAccepted || !payload.name || !payload.email || !payload.message || !isEmail(payload.email)) {
+  if (!requiredOk) {
     return res.status(400).json({ message: "Kérjük, ellenőrizze a kötelező mezőket." });
   }
 
@@ -82,7 +108,9 @@ export default async function handler(req, res) {
       headers,
       body: JSON.stringify({
         source: "odaazado.hu",
-        subject: `Kapcsolatfelvétel${payload.company ? ` – ${payload.company}` : ""}`,
+        status: "Új érdeklődő",
+        submittedAt: new Date().toISOString(),
+        subject: `Ajánlatkérés – ${payload.company}`,
         replyTo: payload.email,
         to: "info@odaazado.hu",
         form: payload,

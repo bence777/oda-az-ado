@@ -1,23 +1,23 @@
 export const trustItems = [
   {
-    value: "10+",
+    value: "15+",
     title: "év szakmai tapasztalat",
-    text: "Több mint egy évtized vállalkozások mellett.",
+    text: "2010 óta a vállalkozások pénzügyi hátterén dolgozunk.",
+  },
+  {
+    value: "MSc",
+    title: "okleveles közgazdász",
+    text: "Számvitel mesterszakos szakmai háttér.",
   },
   {
     value: "Szakmai",
-    title: "felelősségbiztosítás",
-    text: "Biztosítási háttér a szakmai munkához.",
+    title: "könyvelői és adótanácsadói háttér",
+    text: "Mérlegképes könyvelő · adótanácsadó.",
   },
   {
-    value: "Határidő",
-    title: "pontos munkavégzés",
-    text: "Követhető, tervezhető működés.",
-  },
-  {
-    value: "Érthető",
-    title: "pénzügyi információ",
-    text: "Nem csak adatokat adunk át.",
+    value: "5 M Ft",
+    title: "szakmai felelősségbiztosítás",
+    text: "5 M Ft/káresemény biztosítási háttér.",
   },
 ];
 
@@ -47,18 +47,18 @@ export const services = [
 export const processSteps = [
   { title: "Dokumentumok", text: "beérkezése" },
   { title: "Ellenőrzés", text: "és feldolgozás" },
-  { title: "NAV-egyeztetés", text: "és ellenőrzés" },
+  { title: "NAV-egyeztetés", text: "és kontroll" },
   { title: "Könyvelés", text: "és státusz" },
   { title: "Archiválás", text: "és visszakeresés" },
 ];
 
 export const switchSteps = [
   ["Egyeztetés", "A vállalkozás és az együttműködési igények áttekintése."],
-  ["Jelenlegi helyzet", "Megnézzük, honnan indul az átadás-átvétel."],
-  ["Dokumentumok", "Meghatározzuk a szükséges anyagokat és adatokat."],
-  ["Átadás-átvétel", "A könyvelési anyagok rendezett átvétele."],
-  ["Ellenőrzés", "Az átvett adatok és dokumentumok áttekintése."],
-  ["Átállás", "Az új együttműködés elindítása."],
+  ["Helyzetfelmérés", "Megnézzük, honnan indul az átadás-átvétel."],
+  ["Dokumentumok átvétele", "Meghatározzuk és rendezetten átvesszük a szükséges anyagokat."],
+  ["Könyvelés átadása", "Az átadás során tisztázzuk a nyitott feladatokat és státuszokat."],
+  ["Nyitóállapot ellenőrzése", "Az átvett adatok és dokumentumok ellenőrzése megtörténik."],
+  ["Átállás", "Elindul az ODA-AZ-ADÓ strukturált, digitális működési rendje."],
 ];
 
 export const chartData = [

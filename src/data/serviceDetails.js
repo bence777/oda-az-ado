@@ -4,7 +4,7 @@ export const serviceDetails = {
     number: "01",
     name: "Könyvelés",
     eyebrow: "A stabil pénzügyi alap",
-    title: "Könyvelés, amelyből nem csak bevallás készül.",
+    title: "Könyvelés, amire a vállalkozása építhet.",
     description:
       "Teljes körű könyvelési háttér vállalkozásoknak, rendezett folyamatokkal, időben jelzett kötelezettségekkel és érthető szakmai kapcsolattartással.",
     locations: "Debrecen · Budapest · online országosan",
@@ -86,8 +86,8 @@ export const serviceDetails = {
     ],
     trustItems: [
       {
-        title: "Több mint 10 év tapasztalat",
-        text: "A működés mögött több mint egy évtized könyvelési és adózási tapasztalat áll.",
+        title: "15+ év szakmai tapasztalat",
+        text: "2010 óta a vállalkozások pénzügyi hátterén dolgozunk.",
       },
       {
         title: "Szakmai felelősségbiztosítás",
@@ -104,7 +104,7 @@ export const serviceDetails = {
     ],
     ctaTitle: "Beszéljük át, milyen könyvelési háttérre van szüksége.",
     ctaText: "Az ajánlatot a vállalkozás működéséhez, méretéhez és a szükséges feladatokhoz igazítjuk — csomagárak helyett egyedi együttműködésben gondolkodunk.",
-    seoTitle: "Könyvelés Debrecenben és online | Oda-Az-Adó",
+    seoTitle: "Könyvelés vállalkozásoknak | Oda-Az-Adó",
     seoDescription:
       "Teljes körű könyvelés vállalkozásoknak Debrecenben, Budapesten és online országosan. Rendezett folyamatok, adókötelezettségek követése és érthető tájékoztatás.",
   },
@@ -114,7 +114,7 @@ export const serviceDetails = {
     number: "02",
     name: "Adótanácsadás",
     eyebrow: "Döntés előtt",
-    title: "Adótanácsadás, amely nem csak utólag magyarázza a számokat.",
+    title: "Adózási döntésekhez szakmai háttér.",
     description:
       "Előzetes kalkulációk, adózási alternatívák és szakmai egyeztetés, hogy egy fontos döntés adózási következménye már előtte látható legyen.",
     locations: "Debrecen · Budapest · online országosan",
@@ -210,7 +210,7 @@ export const serviceDetails = {
     ],
     ctaTitle: "Van egy adózási kérdés, amit érdemes döntés előtt tisztázni?",
     ctaText: "Írja le röviden a helyzetet. Az első egyeztetés célja annak tisztázása, milyen adatokra és milyen szakmai vizsgálatra van szükség.",
-    seoTitle: "Adótanácsadás Debrecenben és online | Oda-Az-Adó",
+    seoTitle: "Adótanácsadás vállalkozásoknak | Oda-Az-Adó",
     seoDescription:
       "Adótanácsadás vállalkozásoknak Debrecenben és online: előzetes adókalkuláció, adózási módok, gazdálkodási forma és szakmai konzultáció.",
   },
@@ -220,7 +220,7 @@ export const serviceDetails = {
     number: "03",
     name: "Bérszámfejtés",
     eyebrow: "Pontosan, határidőre",
-    title: "Bérszámfejtés, ahol a határidők mögött is rendszer van.",
+    title: "Pontos bérszámfejtés, kiszámítható háttér.",
     description:
       "Munkaviszonyok, tagi jogviszonyok, megbízások és egyéb kifizetések számfejtése, a kapcsolódó nyilvántartásokkal és havi kötelezettségekkel együtt.",
     locations: "Debrecen · Budapest · online országosan",
@@ -316,7 +316,7 @@ export const serviceDetails = {
     ],
     ctaTitle: "A bérszámfejtést is rendezett rendszerben kezelné?",
     ctaText: "Beszéljük át a foglalkoztatási formákat, a havi létszámot és azokat a feladatokat, amelyeket a könyveléssel összehangoltan szeretne kezelni.",
-    seoTitle: "Bérszámfejtés Debrecenben és online | Oda-Az-Adó",
+    seoTitle: "Bérszámfejtés vállalkozásoknak | Oda-Az-Adó",
     seoDescription:
       "Bérszámfejtés Debrecenben és online: munkaviszony, tagi jogviszony, megbízási díj, egyszerűsített foglalkoztatás, nyilvántartások és havi bevallások.",
   },
@@ -326,7 +326,7 @@ export const serviceDetails = {
     number: "04",
     name: "Vezetői információ",
     eyebrow: "A számokból döntés",
-    title: "Vezetői információ, hogy ne csak azt lássa, mi történt.",
+    title: "Nem elég tudni, mi történt. Azt is látni kell, mi következik.",
     description:
       "Érthető riportok, eredmény- és adókalkuláció, valamint rendszeres szakmai egyeztetés a könyvelési adatokból — vezetői döntésekhez.",
     locations: "Debrecen · Budapest · online országosan",

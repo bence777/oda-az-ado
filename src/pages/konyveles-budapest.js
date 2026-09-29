@@ -5,7 +5,7 @@ const service = {
   number: "BP",
   name: "Könyvelés Budapest",
   eyebrow: "Budapesti vállalkozásoknak",
-  title: "Könyvelés Budapesten, rendezett online együttműködéssel.",
+  title: "Könyvelés Budapesten, átlátható rendszerben.",
   description:
     "Teljes körű könyvelési háttér budapesti vállalkozásoknak digitális dokumentumkezeléssel, folyamatos kapcsolattartással, adótanácsadással és vezetői információval.",
   locations: "Budapest · online együttműködés",
@@ -45,7 +45,7 @@ const service = {
     "vezetői riport és döntéstámogatás",
   ],
   trustItems: [
-    { title: "Több mint 10 év tapasztalat", text: "A szolgáltatás mögött több mint egy évtized könyvelési és adózási tapasztalat áll." },
+    { title: "15+ év szakmai tapasztalat", text: "2010 óta a vállalkozások pénzügyi hátterén dolgozunk." },
     { title: "Szakmai felelősségbiztosítás", text: "Az iroda szakmai felelősségbiztosítással rendelkezik." },
     { title: "Regisztrált adótanácsadó", text: "Az iroda ügyvezetője regisztrált adótanácsadó." },
   ],

@@ -19,14 +19,14 @@ export default function ContactHero() {
             <Box>
               <Flex align="center" gap={4} mb={7}><Box w="34px" h="2px" bg={design.colors.champagne} /><Text fontSize="10px" fontWeight="600" letterSpacing=".16em" textTransform="uppercase" color={design.colors.muted}>Kapcsolat</Text></Flex>
               <Heading as="h1" maxW="900px" fontSize={{ base: "50px", sm: "62px", md: "78px", lg: "82px", xl: "94px" }} fontWeight="500" lineHeight=".93" letterSpacing="-.068em" color={design.colors.ink}>
-                Néhány mondat elég az <Box as="span" color={design.colors.champagne}>első lépéshez.</Box>
+                Ajánlatkérés, <Box as="span" color={design.colors.champagne}>felesleges körök nélkül.</Box>
               </Heading>
               <Text mt={8} maxW="640px" fontSize={{ base: "16px", md: "18px" }} lineHeight="1.72" color={design.colors.graphite}>
-                Írjon néhány mondatot a vállalkozásról és arról, miben kér segítséget. A számlamennyiséget, létszámot, adózási részleteket és minden mást ráérünk az első egyeztetésen pontosítani.
+                Néhány alapadat segít abban, hogy már az első egyeztetés előtt lássuk a vállalkozás méretét és az együttműködés jellegét. Könyvelési dokumentumokat ezen a ponton nem kérünk.
               </Text>
             </Box>
             <Flex mt={{ base: 9, lg: 12 }} gap={5} align="center" wrap="wrap">
-              <Button as="a" href="#ajanlatkeres" h="52px" px={8} borderRadius="0" bg={design.colors.ink} color="#fff" fontSize="11px" fontWeight="650" _hover={{ bg: design.colors.champagne, color: design.colors.ink }}>Írok néhány sort</Button>
+              <Button as="a" href="#ajanlatkeres" h="52px" px={8} borderRadius="0" bg={design.colors.ink} color="#fff" fontSize="11px" fontWeight="650" _hover={{ bg: design.colors.champagne, color: design.colors.ink }}>Ajánlatot kérek</Button>
               <Text as="a" href={`tel:${offices.debrecen.mobileHref}`} pb="4px" borderBottom="1px solid" borderColor={design.colors.champagne} fontSize="11px" fontWeight="600" color={design.colors.ink}>{offices.debrecen.mobile}</Text>
             </Flex>
           </Flex>

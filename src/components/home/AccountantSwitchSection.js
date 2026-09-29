@@ -29,11 +29,9 @@ export default function AccountantSwitchSection() {
               letterSpacing="-0.062em"
               color={design.colors.ink}
             >
-              2027-et már
+              Könyvelőváltáson
               <br />
-              új könyvelővel
-              <br />
-              kezdené?
+              gondolkodik?
             </Heading>
 
             <Text
