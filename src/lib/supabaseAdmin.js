@@ -95,11 +95,26 @@ export async function updateLead(id, patch) {
 }
 
 export async function addLeadEvent(event) {
+  // Keep this payload strictly aligned with the current lead_events schema.
+  // Notification delivery state lives on leads.notification_* and is not a
+  // supported lead_events event_type in the current database.
+  const supportedEventTypes = new Set(["created", "status_changed", "note_updated"]);
+  if (!supportedEventTypes.has(event?.event_type)) return null;
+
+  const payload = {
+    lead_id: event.lead_id,
+    event_type: event.event_type,
+    from_status: event.from_status ?? null,
+    to_status: event.to_status ?? null,
+  };
+
   await supabaseRequest("lead_events", {
     method: "POST",
     headers: { Prefer: "return=minimal" },
-    body: JSON.stringify(event),
+    body: JSON.stringify(payload),
   });
+
+  return payload;
 }
 
 export async function markLeadNotification(id, { status, sentAt = null, error = "" }) {

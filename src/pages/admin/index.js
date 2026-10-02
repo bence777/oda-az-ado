@@ -308,9 +308,22 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
   }
 
   async function savePatch(patch, successMessage = "Mentve.") {
-    if (!selectedId) return;
+    if (!selectedId || !selectedLead) return;
+
+    const previousLead = selectedLead;
+    const optimisticLead = {
+      ...selectedLead,
+      ...(Object.prototype.hasOwnProperty.call(patch, "status") ? { status: patch.status } : {}),
+      ...(Object.prototype.hasOwnProperty.call(patch, "internalNote") ? { internal_note: patch.internalNote } : {}),
+      updated_at: new Date().toISOString(),
+    };
+
+    // A módosítás azonnal jelenjen meg a részleteknél, a listában és a metrikákban.
+    setSelectedLead(optimisticLead);
+    setLeads((current) => current.map((lead) => lead.id === selectedId ? optimisticLead : lead));
     setSaving(true);
     setMessage("");
+
     try {
       const response = await fetch(`/api/admin/leads/${selectedId}`, {
         method: "PATCH",
@@ -323,13 +336,20 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
       }
       const body = await response.json().catch(() => ({}));
       if (!response.ok || !body.lead) throw new Error(body.message || "A mentés nem sikerült.");
+
+      // A szerverről visszaolvasott állapot legyen az igazság, reload nélkül.
       setSelectedLead(body.lead);
       setNoteDraft(body.lead.internal_note || "");
       setEvents(body.events || []);
       setLeads((current) => current.map((lead) => lead.id === selectedId ? body.lead : lead));
+      setLastRefreshedAt(new Date().toISOString());
       setMessageType("success");
       setMessage(successMessage);
     } catch (error) {
+      // Sikertelen mentésnél állítsuk vissza a korábbi kliensállapotot.
+      setSelectedLead(previousLead);
+      setNoteDraft(previousLead.internal_note || "");
+      setLeads((current) => current.map((lead) => lead.id === selectedId ? previousLead : lead));
       setMessageType("error");
       setMessage(error.message || "A mentés nem sikerült.");
     } finally {

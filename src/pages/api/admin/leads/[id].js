@@ -48,7 +48,14 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: "Nincs módosítható adat." });
       }
 
-      const lead = await updateLead(id, patch);
+      // Persist first, then read the row back explicitly.
+      // This avoids stale admin UI if PostgREST does not return the updated
+      // representation even though the PATCH itself succeeded.
+      const updatedLead = await updateLead(id, patch);
+      const lead = (await getLead(id)) || updatedLead;
+      if (!lead) {
+        throw new Error("A módosított lead nem tölthető vissza.");
+      }
 
       if (patch.status && patch.status !== existing.status) {
         await addLeadEvent({
@@ -56,7 +63,6 @@ export default async function handler(req, res) {
           event_type: "status_changed",
           from_status: existing.status,
           to_status: patch.status,
-          details: `Státusz módosítva: ${existing.status} → ${patch.status}`,
         });
       }
 
@@ -66,7 +72,6 @@ export default async function handler(req, res) {
           event_type: "note_updated",
           from_status: lead?.status || existing.status,
           to_status: lead?.status || existing.status,
-          details: "Belső megjegyzés frissítve.",
         });
       }
 

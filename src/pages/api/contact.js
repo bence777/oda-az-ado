@@ -161,7 +161,6 @@ export default async function handler(req, res) {
         event_type: "created",
         from_status: null,
         to_status: lead.status,
-        details: "Ajánlatkérés érkezett a weboldalról.",
       });
     } catch (eventError) {
       console.error("Lead event creation failed:", eventError);

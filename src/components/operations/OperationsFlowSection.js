@@ -7,6 +7,7 @@ const steps = [
   ["03", "Könyvelés", "Státusz", "A gazdasági események bekerülnek a könyvelésbe, közben követhető marad, hol tart az adott időszak és mi vár még egyeztetésre."],
   ["04", "Tájékoztatás", "Visszajelzés", "A fizetendő kötelezettségekről és a lényeges könyvelési információkról érthető visszajelzés készülhet."],
   ["05", "Archiválás", "Visszakeresés", "A feldolgozott háttér rendezett marad, így egy korábbi dokumentum, kimutatás vagy egyeztetés később is könnyebben megtalálható."],
+  ["06", "Vezetői", "Információ", "A könyvelési adatokból érthető, vezetői szinten használható információ készülhet, amely támogatja a vállalkozás pénzügyi helyzetének átlátását és a következő döntéseket."],
 ];
 
 export default function OperationsFlowSection() {
@@ -16,7 +17,7 @@ export default function OperationsFlowSection() {
         <Grid templateColumns={{ base: "1fr", lg: ".72fr 1.28fr" }} gap={{ base: 10, lg: 18 }} alignItems="end">
           <Box>
             <Text fontSize="10px" fontWeight="600" letterSpacing=".16em" textTransform="uppercase" color={design.colors.champagne}>A dokumentum útja</Text>
-            <Heading as="h2" mt={6} maxW="610px" fontSize={{ base: "40px", md: "56px", lg: "68px" }} fontWeight="500" lineHeight=".98" letterSpacing="-.06em" color={design.colors.ink}>Öt állomás. Egyetlen folyamat.</Heading>
+            <Heading as="h2" mt={6} maxW="610px" fontSize={{ base: "40px", md: "56px", lg: "68px" }} fontWeight="500" lineHeight=".98" letterSpacing="-.06em" color={design.colors.ink}>Hat állomás. Egyetlen folyamat.</Heading>
           </Box>
           <Text maxW="640px" justifySelf={{ lg: "end" }} fontSize="15px" lineHeight="1.8" color={design.colors.muted}>Nem külön felületeket akarunk megmutatni, hanem azt, hogyan halad tovább ugyanaz az információ a beérkezéstől addig, amíg visszakereshető és használható lesz.</Text>
         </Grid>
@@ -24,7 +25,7 @@ export default function OperationsFlowSection() {
         <Box mt={{ base: 14, md: 18 }}>
           <Box display={{ base: "none", lg: "block" }} position="relative" pt={2}>
             <Box position="absolute" left="5%" right="5%" top="22px" h="1px" bg={design.colors.border} />
-            <Grid templateColumns="repeat(5,1fr)" gap={7} position="relative">
+            <Grid templateColumns="repeat(6,1fr)" gap={7} position="relative">
               {steps.map(([n, label, title, text]) => (
                 <Box key={n}>
                   <Box w="42px" h="42px" borderRadius="50%" bg={design.colors.offWhite} border="1px solid" borderColor={design.colors.champagne} display="grid" placeItems="center" position="relative" zIndex="1">

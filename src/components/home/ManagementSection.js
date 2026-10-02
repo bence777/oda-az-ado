@@ -413,6 +413,72 @@ export default function ManagementSection() {
                     </Text>
                   ))}
                 </Flex>
+
+                <Grid
+                  mt={8}
+                  pt={6}
+                  borderTop="1px solid rgba(255,255,255,.09)"
+                  templateColumns={{
+                    base: "1fr 1fr",
+                    md: "repeat(5, minmax(0, 1fr))",
+                  }}
+                  gap={{ base: 5, md: 0 }}
+                >
+                  {[
+                    ["Követelések", "6,4 M Ft", "vevőállomány"],
+                    ["Kötelezettségek", "4,9 M Ft", "szállítók + adók"],
+                    ["Likviditási terv", "+7,8 M Ft", "30 napos kitekintés"],
+                    ["Cash-flow", "+1,6 M Ft", "havi egyenleg"],
+                    ["Várható pénzmozgások", "12,7 M Ft", "következő 30 nap"],
+                  ].map((item, index) => (
+                    <Box
+                      key={item[0]}
+                      minW={0}
+                      pr={{ base: 0, md: index < 4 ? 4 : 0 }}
+                      pl={{ base: 0, md: index > 0 ? 4 : 0 }}
+                      borderLeft={{
+                        base: "none",
+                        md:
+                          index > 0
+                            ? "1px solid rgba(255,255,255,.08)"
+                            : "none",
+                      }}
+                      gridColumn={{
+                        base: index === 4 ? "1 / -1" : "auto",
+                        md: "auto",
+                      }}
+                    >
+                      <Text
+                        fontSize="9px"
+                        lineHeight="1.35"
+                        color="rgba(255,255,255,.38)"
+                      >
+                        {item[0]}
+                      </Text>
+                      <Text
+                        mt={2}
+                        fontSize={{ base: "15px", md: "14px", xl: "15px" }}
+                        fontWeight="600"
+                        letterSpacing="-0.025em"
+                        color="#FFFFFF"
+                      >
+                        {item[1]}
+                      </Text>
+                      <Text
+                        mt={1.5}
+                        fontSize="8px"
+                        lineHeight="1.4"
+                        color={
+                          index === 2 || index === 3
+                            ? design.colors.champagne
+                            : "rgba(255,255,255,.3)"
+                        }
+                      >
+                        {item[2]}
+                      </Text>
+                    </Box>
+                  ))}
+                </Grid>
               </Box>
             </Box>
 
