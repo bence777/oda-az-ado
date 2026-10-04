@@ -38,7 +38,6 @@ export default async function handler(req, res) {
       return res.status(429).json({ message: "Túl sok belépési próbálkozás. Próbáld újra később." });
     }
   } catch (error) {
-    // A Supabase átmeneti hibája önmagában ne zárja ki az admint.
     console.error("Admin login rate limit check failed:", error);
   }
 

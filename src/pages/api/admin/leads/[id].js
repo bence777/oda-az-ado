@@ -48,9 +48,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: "Nincs módosítható adat." });
       }
 
-      // Persist first, then read the row back explicitly.
-      // This avoids stale admin UI if PostgREST does not return the updated
-      // representation even though the PATCH itself succeeded.
       const updatedLead = await updateLead(id, patch);
       const lead = (await getLead(id)) || updatedLead;
       if (!lead) {

@@ -29,7 +29,7 @@ export const services = [
   },
   {
     title: "Adótanácsadás",
-    text: "Előre gondolkodunk, nem csak utólag számolunk.",
+    text: "Az adózási következményeket már a döntések előtt is áttekintjük.",
     href: "/adotanacsadas",
   },
   {

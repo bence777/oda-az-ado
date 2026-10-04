@@ -15,8 +15,8 @@ export default function OperationsControlSection() {
         <Grid templateColumns={{ base: "1fr", lg: ".88fr 1.12fr" }} gap={{ base: 12, lg: 18 }} alignItems="start">
           <Box position={{ lg: "sticky" }} top={{ lg: "130px" }}>
             <Text fontSize="10px" fontWeight="600" letterSpacing=".16em" textTransform="uppercase" color={design.colors.champagne}>Mit ad a rendszer?</Text>
-            <Heading as="h2" mt={6} maxW="690px" fontSize={{ base: "40px", md: "56px", lg: "68px" }} fontWeight="500" lineHeight=".98" letterSpacing="-.06em" color={design.colors.ink}>Nem a technológia a lényeg. Hanem amit levesz a válláról.</Heading>
-            <Text mt={7} maxW="560px" fontSize="14px" lineHeight="1.8" color={design.colors.muted}>A digitális működés önmagában nem érték. Akkor válik azzá, ha kevesebb utánajárást, kevesebb bizonytalanságot és tisztább kommunikációt eredményez.</Text>
+            <Heading as="h2" mt={6} maxW="690px" fontSize={{ base: "40px", md: "56px", lg: "68px" }} fontWeight="500" lineHeight=".98" letterSpacing="-.06em" color={design.colors.ink}>Kevesebb adminisztráció, kevesebb utánajárás.</Heading>
+            <Text mt={7} maxW="560px" fontSize="14px" lineHeight="1.8" color={design.colors.muted}>A digitális folyamatokat azért használjuk, hogy egyszerűbb legyen az anyagátadás, hamarabb látszódjanak a nyitott kérdések, és könnyebb legyen visszakeresni az előzményeket.</Text>
           </Box>
 
           <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={{ base: 5, md: 6 }}>

@@ -18,7 +18,6 @@ function buildHeaders(key, extra = {}) {
     ...extra,
   };
 
-  // Legacy service_role keys are JWTs. New sb_secret_* keys are sent as apikey only.
   if (key.startsWith("eyJ")) {
     headers.Authorization = `Bearer ${key}`;
   }
@@ -95,9 +94,6 @@ export async function updateLead(id, patch) {
 }
 
 export async function addLeadEvent(event) {
-  // Keep this payload strictly aligned with the current lead_events schema.
-  // Notification delivery state lives on leads.notification_* and is not a
-  // supported lead_events event_type in the current database.
   const supportedEventTypes = new Set(["created", "status_changed", "note_updated"]);
   if (!supportedEventTypes.has(event?.event_type)) return null;
 

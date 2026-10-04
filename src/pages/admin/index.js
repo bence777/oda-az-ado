@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Box, Grid, Text } from "@chakra-ui/react";
@@ -130,12 +130,12 @@ function NotificationBadge({ lead }) {
 
 function MetricCard({ label, value, hint, accent }) {
   return (
-    <Box bg={ui.panel} border={`1px solid ${ui.border}`} borderRadius="12px" p={5} minW="0">
+    <Box bg={ui.panel} border={`1px solid ${ui.border}`} borderRadius="12px" p={{ base: 4, md: 5 }} minW="0">
       <Box display="flex" alignItems="center" justifyContent="space-between" gap={3}>
         <Text fontSize="12px" fontWeight="650" color={ui.muted}>{label}</Text>
         <Box w="8px" h="8px" borderRadius="50%" bg={accent} />
       </Box>
-      <Text mt={3} fontSize="28px" fontWeight="760" letterSpacing="-.04em" lineHeight="1">{value}</Text>
+      <Text mt={3} fontSize={{ base: "24px", md: "28px" }} fontWeight="760" letterSpacing="-.04em" lineHeight="1">{value}</Text>
       <Text mt={2} fontSize="11px" color={ui.quiet}>{hint}</Text>
     </Box>
   );
@@ -183,15 +183,138 @@ function Timeline({ events, loading }) {
             {index !== events.length - 1 ? <Box position="absolute" top="13px" bottom="-20px" w="1px" bg={ui.border} /> : null}
           </Box>
           <Box minW="0">
-            <Box display="flex" justifyContent="space-between" gap={3} alignItems="flex-start">
+            <Box display={{ base: "block", sm: "flex" }} justifyContent="space-between" gap={3} alignItems="flex-start">
               <Text fontSize="12px" fontWeight="700" color={ui.textSoft}>{labels[event.event_type] || event.event_type}</Text>
-              <Text flex="0 0 auto" fontSize="10px" color={ui.quiet}>{relativeDate(event.created_at)}</Text>
+              <Text mt={{ base: 1, sm: 0 }} flex="0 0 auto" fontSize="10px" color={ui.quiet}>{relativeDate(event.created_at)}</Text>
             </Box>
             {event.details ? <Text mt={1} fontSize="11px" lineHeight="1.55" color={ui.muted}>{event.details}</Text> : null}
           </Box>
         </Box>
       ))}
     </Box>
+  );
+}
+
+
+function LeadDetailPanel({
+  lead,
+  events,
+  detailLoading,
+  saving,
+  notifying,
+  noteDraft,
+  setNoteDraft,
+  savePatch,
+  resendNotification,
+  mobile = false,
+  onClose,
+}) {
+  if (!lead) {
+    return (
+      <Box py={16} px={6} textAlign="center">
+        <Box mx="auto" w="42px" h="42px" borderRadius="12px" bg="#F2F4F7" display="grid" placeItems="center" color={ui.quiet}>→</Box>
+        <Text mt={4} fontSize="13px" fontWeight="700">Válassz egy leadet</Text>
+        <Text mt={1.5} fontSize="12px" color={ui.muted}>A részletek és a műveletek itt jelennek meg.</Text>
+      </Box>
+    );
+  }
+
+  return (
+    <>
+      {mobile ? (
+        <Box position="sticky" top="0" zIndex="2" bg="rgba(255,255,255,.98)" backdropFilter="blur(10px)" borderBottom={`1px solid ${ui.border}`} px={4} h="58px" display="flex" alignItems="center" justifyContent="space-between" gap={3}>
+          <Box as="button" type="button" onClick={onClose} h="38px" px={3} border={`1px solid ${ui.border}`} borderRadius="8px" bg="#fff" color={ui.textSoft} fontSize="12px" fontWeight="700" cursor="pointer">
+            ← Vissza
+          </Box>
+          <Text minW="0" noOfLines={1} textAlign="right" fontSize="12px" fontWeight="700" color={ui.text}>{lead.company}</Text>
+        </Box>
+      ) : null}
+
+      <Box px={{ base: 4, sm: 5, md: 6 }} py={5} borderBottom={`1px solid ${ui.border}`}>
+        <Box display="flex" justifyContent="space-between" gap={4} alignItems="flex-start">
+          <Box minW="0">
+            <Box display="flex" flexWrap="wrap" gap={2} alignItems="center"><StatusBadge status={lead.status} compact /><NotificationBadge lead={lead} /></Box>
+            <Text mt={3} fontSize={{ base: "20px", sm: "22px" }} fontWeight="760" letterSpacing="-.025em" noOfLines={2}>{lead.company}</Text>
+            <Text mt={1} fontSize="12px" lineHeight="1.55" color={ui.muted}>{lead.name} · {formatDate(lead.created_at)}</Text>
+          </Box>
+          {detailLoading ? <Text flex="0 0 auto" fontSize="10px" color={ui.quiet}>Betöltés…</Text> : null}
+        </Box>
+
+        <Grid mt={4} templateColumns="1fr 1fr" gap={2}>
+          <Box as="a" href={`mailto:${lead.email}`} minH="44px" border={`1px solid ${ui.border}`} borderRadius="8px" display="grid" placeItems="center" px={2} textAlign="center" fontSize="11px" fontWeight="700" color={ui.textSoft} bg="#fff">E-mail írása</Box>
+          <Box as="a" href={`tel:${lead.phone}`} minH="44px" border={`1px solid ${ui.border}`} borderRadius="8px" display="grid" placeItems="center" px={2} textAlign="center" fontSize="11px" fontWeight="700" color={ui.textSoft} bg="#fff">Hívás</Box>
+        </Grid>
+      </Box>
+
+      <Box px={{ base: 4, sm: 5, md: 6 }} py={5} borderBottom={`1px solid ${ui.border}`}>
+        <Text fontSize="11px" fontWeight="750" color={ui.text}>Folyamat</Text>
+        <Grid mt={4} templateColumns={{ base: "1fr", sm: "1fr auto" }} gap={2}>
+          <select
+            value={lead.status}
+            disabled={saving}
+            onChange={(event) => savePatch({ status: event.target.value }, "Státusz frissítve.")}
+            style={{ height: "44px", width: "100%", border: `1px solid ${ui.borderStrong}`, borderRadius: "8px", padding: "0 10px", outline: "none", fontSize: "12px", fontWeight: 650, color: ui.text, background: "#fff" }}
+          >
+            {LEAD_STATUSES.map((status) => <option key={status} value={status}>{status}</option>)}
+          </select>
+          <Box as="button" type="button" onClick={resendNotification} disabled={notifying} h="44px" px={4} border={`1px solid ${ui.primaryBorder}`} borderRadius="8px" bg={ui.primarySoft} color={ui.primary} fontSize="11px" fontWeight="700" cursor={notifying ? "wait" : "pointer"} whiteSpace="nowrap">
+            {notifying ? "Küldés…" : lead.notification_status === "sent" ? "E-mail újraküldése" : "E-mail küldése"}
+          </Box>
+        </Grid>
+        {lead.notification_error ? <Text mt={2} fontSize="10px" lineHeight="1.5" color={ui.danger}>{lead.notification_error}</Text> : null}
+        {lead.notification_sent_at ? <Text mt={2} fontSize="10px" color={ui.quiet}>Utolsó sikeres értesítés: {formatDate(lead.notification_sent_at)}</Text> : null}
+      </Box>
+
+      <Box px={{ base: 4, sm: 5, md: 6 }} py={5} borderBottom={`1px solid ${ui.border}`}>
+        <Text fontSize="11px" fontWeight="750" color={ui.text}>Kapcsolat és vállalkozás</Text>
+        <Grid mt={4} templateColumns={{ base: "1fr", sm: "1fr 1fr" }} gapX={5} gapY={5}>
+          <DetailField label="E-mail" value={lead.email} href={`mailto:${lead.email}`} />
+          <DetailField label="Telefon" value={lead.phone} href={`tel:${lead.phone}`} />
+          <DetailField label="Adószám" value={lead.tax_id} />
+          <DetailField label="Forrás" value={lead.source} />
+          <DetailField label="Bizonylat / hó" value={lead.monthly_documents} />
+          <DetailField label="Bankszámlák" value={lead.bank_accounts} />
+          <DetailField label="Munkavállalók" value={lead.employees} />
+          <DetailField label="Külföldi / EU" value={lead.foreign_transactions} />
+          <DetailField label="Érdeklődés oka" value={lead.reason} />
+          <DetailField label="Tervezett kezdés" value={lead.planned_start} />
+        </Grid>
+      </Box>
+
+      <Box px={{ base: 4, sm: 5, md: 6 }} py={5} borderBottom={`1px solid ${ui.border}`}>
+        <Text fontSize="11px" fontWeight="750" color={ui.text}>Érdeklődő üzenete</Text>
+        <Box mt={3} bg="#F8FAFC" border={`1px solid ${ui.border}`} borderRadius="9px" p={4}>
+          <Text whiteSpace="pre-wrap" overflowWrap="anywhere" fontSize="12px" lineHeight="1.7" color={ui.textSoft}>{lead.message || "Nem adott meg külön megjegyzést."}</Text>
+        </Box>
+      </Box>
+
+      <Box px={{ base: 4, sm: 5, md: 6 }} py={5} borderBottom={`1px solid ${ui.border}`}>
+        <Box display="flex" flexWrap="wrap" justifyContent="space-between" gap={2} alignItems="center">
+          <Text fontSize="11px" fontWeight="750" color={ui.text}>Belső megjegyzés</Text>
+          <Text fontSize="10px" color={ui.quiet}>csak az adminban látható</Text>
+        </Box>
+        <textarea
+          value={noteDraft}
+          onChange={(event) => setNoteDraft(event.target.value)}
+          rows="5"
+          placeholder="Pl. visszahívás, ajánlati részletek, következő lépés…"
+          style={{ width: "100%", marginTop: "12px", border: `1px solid ${ui.borderStrong}`, borderRadius: "8px", padding: "11px 12px", resize: "vertical", minHeight: "110px", outline: "none", fontSize: "12px", lineHeight: 1.6, color: ui.text, background: "#fff" }}
+        />
+        <Box display="flex" justifyContent="flex-end" mt={3}>
+          <Box as="button" type="button" onClick={() => savePatch({ internalNote: noteDraft }, "Megjegyzés mentve.")} disabled={saving || noteDraft === (lead.internal_note || "")} h="44px" w={{ base: "100%", sm: "auto" }} px={4} border="0" borderRadius="8px" bg={noteDraft === (lead.internal_note || "") ? "#E4E7EC" : ui.primary} color={noteDraft === (lead.internal_note || "") ? ui.quiet : "#fff"} fontSize="11px" fontWeight="700" cursor={saving ? "wait" : "pointer"}>
+            {saving ? "Mentés…" : "Megjegyzés mentése"}
+          </Box>
+        </Box>
+      </Box>
+
+      <Box px={{ base: 4, sm: 5, md: 6 }} py={5} pb={mobile ? 10 : 5}>
+        <Box display="flex" justifyContent="space-between" gap={3} alignItems="center" mb={4}>
+          <Text fontSize="11px" fontWeight="750" color={ui.text}>Aktivitás</Text>
+          <Text fontSize="10px" color={ui.quiet}>audit napló</Text>
+        </Box>
+        <Timeline events={events} loading={detailLoading} />
+      </Box>
+    </>
   );
 }
 
@@ -221,6 +344,7 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
   const [message, setMessage] = useState(loadError || "");
   const [messageType, setMessageType] = useState(loadError ? "error" : "success");
   const [noteDraft, setNoteDraft] = useState(selectedLead?.internal_note || "");
+  const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
 
   const metrics = useMemo(() => ({
     total: leads.length,
@@ -249,7 +373,7 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
     });
   }, [filter, leads, search]);
 
-  async function loadDetail(id, { updateUrl = true } = {}) {
+  const loadDetail = useCallback(async (id, { updateUrl = true } = {}) => {
     if (!id) return;
     setSelectedId(id);
     setDetailLoading(true);
@@ -276,12 +400,18 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
     } finally {
       setDetailLoading(false);
     }
+  }, [router]);
+
+  function openLead(id) {
+    loadDetail(id);
+    if (typeof window !== "undefined" && window.matchMedia("(max-width: 1279px)").matches) {
+      setMobileDetailOpen(true);
+    }
   }
 
   useEffect(() => {
     if (initialSelectedId) loadDetail(initialSelectedId, { updateUrl: false });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [initialSelectedId, loadDetail]);
 
   async function refreshLeads() {
     setRefreshing(true);
@@ -318,7 +448,6 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
       updated_at: new Date().toISOString(),
     };
 
-    // A módosítás azonnal jelenjen meg a részleteknél, a listában és a metrikákban.
     setSelectedLead(optimisticLead);
     setLeads((current) => current.map((lead) => lead.id === selectedId ? optimisticLead : lead));
     setSaving(true);
@@ -337,7 +466,6 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
       const body = await response.json().catch(() => ({}));
       if (!response.ok || !body.lead) throw new Error(body.message || "A mentés nem sikerült.");
 
-      // A szerverről visszaolvasott állapot legyen az igazság, reload nélkül.
       setSelectedLead(body.lead);
       setNoteDraft(body.lead.internal_note || "");
       setEvents(body.events || []);
@@ -346,7 +474,6 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
       setMessageType("success");
       setMessage(successMessage);
     } catch (error) {
-      // Sikertelen mentésnél állítsuk vissza a korábbi kliensállapotot.
       setSelectedLead(previousLead);
       setNoteDraft(previousLead.internal_note || "");
       setLeads((current) => current.map((lead) => lead.id === selectedId ? previousLead : lead));
@@ -397,29 +524,29 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
         <meta name="robots" content="noindex,nofollow,noarchive" />
       </Head>
 
-      <Box minH="100vh" bg={ui.bg} color={ui.text}>
+      <Box minH="100vh" bg={ui.bg} color={ui.text} overflowX="hidden">
         <Box position="sticky" top="0" zIndex="20" bg="rgba(255,255,255,.96)" backdropFilter="blur(12px)" borderBottom={`1px solid ${ui.border}`}>
-          <Box maxW="1600px" mx="auto" px={{ base: 4, md: 7 }} h="68px" display="flex" justifyContent="space-between" alignItems="center" gap={4}>
+          <Box maxW="1600px" mx="auto" px={{ base: 3, sm: 4, md: 7 }} h={{ base: "60px", md: "68px" }} display="flex" justifyContent="space-between" alignItems="center" gap={4}>
             <Box display="flex" alignItems="center" gap={3} minW="0">
-              <Box w="38px" h="38px" flex="0 0 auto" borderRadius="10px" bg={ui.text} color="#fff" display="grid" placeItems="center" fontSize="12px" fontWeight="800">OA</Box>
+              <Box w={{ base: "34px", md: "38px" }} h={{ base: "34px", md: "38px" }} flex="0 0 auto" borderRadius="10px" bg={ui.text} color="#fff" display="grid" placeItems="center" fontSize="12px" fontWeight="800">OA</Box>
               <Box minW="0">
                 <Text fontSize="13px" fontWeight="750" noOfLines={1}>ODA-AZ-ADÓ</Text>
-                <Text mt={0.5} fontSize="11px" color={ui.muted}>Leadkezelő</Text>
+                <Text display={{ base: "none", sm: "block" }} mt={0.5} fontSize="11px" color={ui.muted}>Leadkezelő</Text>
               </Box>
             </Box>
 
             <Box display="flex" alignItems="center" gap={2}>
-              <Box as="button" onClick={refreshLeads} disabled={refreshing} h="36px" px={3.5} border={`1px solid ${ui.border}`} borderRadius="8px" bg="#fff" color={ui.textSoft} fontSize="11px" fontWeight="650" cursor={refreshing ? "wait" : "pointer"}>
+              <Box as="button" onClick={refreshLeads} disabled={refreshing} h={{ base: "40px", md: "36px" }} px={{ base: 2.5, sm: 3.5 }} border={`1px solid ${ui.border}`} borderRadius="8px" bg="#fff" color={ui.textSoft} fontSize={{ base: "10px", sm: "11px" }} fontWeight="650" cursor={refreshing ? "wait" : "pointer"}>
                 {refreshing ? "Frissítés…" : "Frissítés"}
               </Box>
-              <Box as="button" onClick={logout} h="36px" px={3.5} border={`1px solid ${ui.border}`} borderRadius="8px" bg="#fff" color={ui.muted} fontSize="11px" fontWeight="650" cursor="pointer">
+              <Box as="button" onClick={logout} h={{ base: "40px", md: "36px" }} px={{ base: 2.5, sm: 3.5 }} border={`1px solid ${ui.border}`} borderRadius="8px" bg="#fff" color={ui.muted} fontSize={{ base: "10px", sm: "11px" }} fontWeight="650" cursor="pointer">
                 Kilépés
               </Box>
             </Box>
           </Box>
         </Box>
 
-        <Box maxW="1600px" mx="auto" px={{ base: 4, md: 7 }} py={{ base: 5, md: 7 }}>
+        <Box maxW="1600px" mx="auto" px={{ base: 3, sm: 4, md: 7 }} py={{ base: 5, md: 7 }}>
           <Box display={{ base: "block", md: "flex" }} justifyContent="space-between" alignItems="flex-end" gap={6} mb={6}>
             <Box>
               <Text fontSize={{ base: "24px", md: "30px" }} fontWeight="760" letterSpacing="-.035em">Érdeklődők</Text>
@@ -451,17 +578,28 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
                     value={search}
                     onChange={(event) => setSearch(event.target.value)}
                     placeholder="Keresés cég, név, e-mail, adószám alapján…"
-                    style={{ width: "100%", height: "40px", border: `1px solid ${ui.border}`, borderRadius: "8px", padding: "0 12px", outline: "none", fontSize: "12px", color: ui.text, background: "#fff" }}
+                    style={{ width: "100%", height: "44px", border: `1px solid ${ui.border}`, borderRadius: "8px", padding: "0 12px", outline: "none", fontSize: "12px", color: ui.text, background: "#fff" }}
                   />
                 </Box>
-                <select
+                <Box
+                  as="select"
                   value={filter}
                   onChange={(event) => setFilter(event.target.value)}
-                  style={{ height: "40px", minWidth: "190px", border: `1px solid ${ui.border}`, borderRadius: "8px", padding: "0 10px", outline: "none", fontSize: "11px", fontWeight: 600, color: ui.textSoft, background: "#fff" }}
+                  h="44px"
+                  w={{ base: "100%", md: "auto" }}
+                  minW={{ md: "190px" }}
+                  border={`1px solid ${ui.border}`}
+                  borderRadius="8px"
+                  px={2.5}
+                  outline="none"
+                  fontSize="11px"
+                  fontWeight="600"
+                  color={ui.textSoft}
+                  bg="#fff"
                 >
                   <option>Összes státusz</option>
                   {LEAD_STATUSES.map((status) => <option key={status} value={status}>{status} ({statusCounts[status] || 0})</option>)}
-                </select>
+                </Box>
               </Box>
 
               <Box display={{ base: "none", md: "grid" }} gridTemplateColumns="minmax(210px,1.2fr) minmax(150px,.8fr) 150px 150px" gap={4} px={5} py={3} borderBottom={`1px solid ${ui.border}`} bg="#FAFBFC">
@@ -481,7 +619,7 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
                       key={lead.id}
                       as="button"
                       type="button"
-                      onClick={() => loadDetail(lead.id)}
+                      onClick={() => openLead(lead.id)}
                       w="100%"
                       textAlign="left"
                       border="0"
@@ -502,7 +640,10 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
                           <Text fontSize="11px" fontWeight="600" color={ui.textSoft} noOfLines={1}>{lead.reason}</Text>
                           <Text mt={1} fontSize="10px" color={ui.quiet}>{lead.planned_start}</Text>
                         </Box>
-                        <Box mt={{ base: 3, md: 0 }}><StatusBadge status={lead.status} compact /></Box>
+                        <Box mt={{ base: 3, md: 0 }} display={{ base: "flex", md: "block" }} alignItems="center" justifyContent="space-between" gap={3}>
+                          <StatusBadge status={lead.status} compact />
+                          <Text display={{ base: "block", md: "none" }} fontSize="16px" lineHeight="1" color={ui.quiet}>›</Text>
+                        </Box>
                         <Box mt={{ base: 3, md: 0 }} display={{ base: "flex", md: "block" }} justifyContent="space-between" gap={3}>
                           <Text fontSize="11px" fontWeight="600" color={ui.textSoft}>{relativeDate(lead.created_at)}</Text>
                           <Text mt={{ base: 0, md: 1 }} fontSize="10px" color={ui.quiet}>{formatDate(lead.created_at, false)}</Text>
@@ -513,109 +654,52 @@ export default function AdminLeads({ initialLeads, initialSelectedId, loadError 
                 })
               )}
 
-              <Box px={5} py={3.5} bg="#FAFBFC" display="flex" justifyContent="space-between" gap={3}>
+              <Box px={{ base: 4, md: 5 }} py={3.5} bg="#FAFBFC" display="flex" flexWrap="wrap" justifyContent="space-between" gap={2}>
                 <Text fontSize="10px" color={ui.quiet}>{filtered.length} találat</Text>
                 <Text fontSize="10px" color={ui.quiet}>Legfeljebb 250 lead betöltve</Text>
               </Box>
             </Box>
 
-            <Box position={{ xl: "sticky" }} top={{ xl: "88px" }} bg={ui.panel} border={`1px solid ${ui.border}`} borderRadius="12px" overflow="hidden" minW="0">
-              {!selectedLead ? (
-                <Box py={16} px={6} textAlign="center">
-                  <Box mx="auto" w="42px" h="42px" borderRadius="12px" bg="#F2F4F7" display="grid" placeItems="center" color={ui.quiet}>→</Box>
-                  <Text mt={4} fontSize="13px" fontWeight="700">Válassz egy leadet</Text>
-                  <Text mt={1.5} fontSize="12px" color={ui.muted}>A részletek és a műveletek itt jelennek meg.</Text>
-                </Box>
-              ) : (
-                <>
-                  <Box px={{ base: 5, md: 6 }} py={5} borderBottom={`1px solid ${ui.border}`}>
-                    <Box display="flex" justifyContent="space-between" gap={4} alignItems="flex-start">
-                      <Box minW="0">
-                        <Box display="flex" flexWrap="wrap" gap={2} alignItems="center"><StatusBadge status={selectedLead.status} compact /><NotificationBadge lead={selectedLead} /></Box>
-                        <Text mt={3} fontSize="22px" fontWeight="760" letterSpacing="-.025em" noOfLines={2}>{selectedLead.company}</Text>
-                        <Text mt={1} fontSize="12px" color={ui.muted}>{selectedLead.name} · {formatDate(selectedLead.created_at)}</Text>
-                      </Box>
-                      {detailLoading ? <Text fontSize="10px" color={ui.quiet}>Betöltés…</Text> : null}
-                    </Box>
-
-                    <Grid mt={4} templateColumns="1fr 1fr" gap={2}>
-                      <Box as="a" href={`mailto:${selectedLead.email}`} h="38px" border={`1px solid ${ui.border}`} borderRadius="8px" display="grid" placeItems="center" fontSize="11px" fontWeight="700" color={ui.textSoft} bg="#fff">E-mail írása</Box>
-                      <Box as="a" href={`tel:${selectedLead.phone}`} h="38px" border={`1px solid ${ui.border}`} borderRadius="8px" display="grid" placeItems="center" fontSize="11px" fontWeight="700" color={ui.textSoft} bg="#fff">Hívás</Box>
-                    </Grid>
-                  </Box>
-
-                  <Box px={{ base: 5, md: 6 }} py={5} borderBottom={`1px solid ${ui.border}`}>
-                    <Text fontSize="11px" fontWeight="750" color={ui.text}>Folyamat</Text>
-                    <Grid mt={4} templateColumns={{ base: "1fr", sm: "1fr auto" }} gap={2}>
-                      <select
-                        value={selectedLead.status}
-                        disabled={saving}
-                        onChange={(event) => savePatch({ status: event.target.value }, "Státusz frissítve.")}
-                        style={{ height: "42px", width: "100%", border: `1px solid ${ui.borderStrong}`, borderRadius: "8px", padding: "0 10px", outline: "none", fontSize: "12px", fontWeight: 650, color: ui.text, background: "#fff" }}
-                      >
-                        {LEAD_STATUSES.map((status) => <option key={status} value={status}>{status}</option>)}
-                      </select>
-                      <Box as="button" type="button" onClick={resendNotification} disabled={notifying} h="42px" px={4} border={`1px solid ${ui.primaryBorder}`} borderRadius="8px" bg={ui.primarySoft} color={ui.primary} fontSize="11px" fontWeight="700" cursor={notifying ? "wait" : "pointer"} whiteSpace="nowrap">
-                        {notifying ? "Küldés…" : selectedLead.notification_status === "sent" ? "E-mail újraküldése" : "E-mail küldése"}
-                      </Box>
-                    </Grid>
-                    {selectedLead.notification_error ? <Text mt={2} fontSize="10px" lineHeight="1.5" color={ui.danger}>{selectedLead.notification_error}</Text> : null}
-                    {selectedLead.notification_sent_at ? <Text mt={2} fontSize="10px" color={ui.quiet}>Utolsó sikeres értesítés: {formatDate(selectedLead.notification_sent_at)}</Text> : null}
-                  </Box>
-
-                  <Box px={{ base: 5, md: 6 }} py={5} borderBottom={`1px solid ${ui.border}`}>
-                    <Text fontSize="11px" fontWeight="750" color={ui.text}>Kapcsolat és vállalkozás</Text>
-                    <Grid mt={4} templateColumns="1fr 1fr" gapX={5} gapY={5}>
-                      <DetailField label="E-mail" value={selectedLead.email} href={`mailto:${selectedLead.email}`} />
-                      <DetailField label="Telefon" value={selectedLead.phone} href={`tel:${selectedLead.phone}`} />
-                      <DetailField label="Adószám" value={selectedLead.tax_id} />
-                      <DetailField label="Forrás" value={selectedLead.source} />
-                      <DetailField label="Bizonylat / hó" value={selectedLead.monthly_documents} />
-                      <DetailField label="Bankszámlák" value={selectedLead.bank_accounts} />
-                      <DetailField label="Munkavállalók" value={selectedLead.employees} />
-                      <DetailField label="Külföldi / EU" value={selectedLead.foreign_transactions} />
-                      <DetailField label="Érdeklődés oka" value={selectedLead.reason} />
-                      <DetailField label="Tervezett kezdés" value={selectedLead.planned_start} />
-                    </Grid>
-                  </Box>
-
-                  <Box px={{ base: 5, md: 6 }} py={5} borderBottom={`1px solid ${ui.border}`}>
-                    <Text fontSize="11px" fontWeight="750" color={ui.text}>Érdeklődő üzenete</Text>
-                    <Box mt={3} bg="#F8FAFC" border={`1px solid ${ui.border}`} borderRadius="9px" p={4}>
-                      <Text whiteSpace="pre-wrap" fontSize="12px" lineHeight="1.7" color={ui.textSoft}>{selectedLead.message || "Nem adott meg külön megjegyzést."}</Text>
-                    </Box>
-                  </Box>
-
-                  <Box px={{ base: 5, md: 6 }} py={5} borderBottom={`1px solid ${ui.border}`}>
-                    <Box display="flex" justifyContent="space-between" gap={3} alignItems="center">
-                      <Text fontSize="11px" fontWeight="750" color={ui.text}>Belső megjegyzés</Text>
-                      <Text fontSize="10px" color={ui.quiet}>csak az adminban látható</Text>
-                    </Box>
-                    <textarea
-                      value={noteDraft}
-                      onChange={(event) => setNoteDraft(event.target.value)}
-                      rows="5"
-                      placeholder="Pl. visszahívás, ajánlati részletek, következő lépés…"
-                      style={{ width: "100%", marginTop: "12px", border: `1px solid ${ui.borderStrong}`, borderRadius: "8px", padding: "11px 12px", resize: "vertical", minHeight: "110px", outline: "none", fontSize: "12px", lineHeight: 1.6, color: ui.text, background: "#fff" }}
-                    />
-                    <Box display="flex" justifyContent="flex-end" mt={3}>
-                      <Box as="button" type="button" onClick={() => savePatch({ internalNote: noteDraft }, "Megjegyzés mentve.")} disabled={saving || noteDraft === (selectedLead.internal_note || "")} h="38px" px={4} border="0" borderRadius="8px" bg={noteDraft === (selectedLead.internal_note || "") ? "#E4E7EC" : ui.primary} color={noteDraft === (selectedLead.internal_note || "") ? ui.quiet : "#fff"} fontSize="11px" fontWeight="700" cursor={saving ? "wait" : "pointer"}>
-                        {saving ? "Mentés…" : "Megjegyzés mentése"}
-                      </Box>
-                    </Box>
-                  </Box>
-
-                  <Box px={{ base: 5, md: 6 }} py={5}>
-                    <Box display="flex" justifyContent="space-between" gap={3} alignItems="center" mb={4}>
-                      <Text fontSize="11px" fontWeight="750" color={ui.text}>Aktivitás</Text>
-                      <Text fontSize="10px" color={ui.quiet}>audit napló</Text>
-                    </Box>
-                    <Timeline events={events} loading={detailLoading} />
-                  </Box>
-                </>
-              )}
+            <Box display={{ base: "none", xl: "block" }} position="sticky" top="88px" bg={ui.panel} border={`1px solid ${ui.border}`} borderRadius="12px" overflow="hidden" minW="0">
+              <LeadDetailPanel
+                lead={selectedLead}
+                events={events}
+                detailLoading={detailLoading}
+                saving={saving}
+                notifying={notifying}
+                noteDraft={noteDraft}
+                setNoteDraft={setNoteDraft}
+                savePatch={savePatch}
+                resendNotification={resendNotification}
+              />
             </Box>
           </Grid>
+
+          <Box
+            display={{ base: mobileDetailOpen ? "block" : "none", xl: "none" }}
+            position="fixed"
+            inset="0"
+            zIndex="60"
+            bg={ui.bg}
+            overflowY="auto"
+            overscrollBehavior="contain"
+          >
+            <Box minH="100%" bg={ui.panel}>
+              <LeadDetailPanel
+                lead={selectedLead}
+                events={events}
+                detailLoading={detailLoading}
+                saving={saving}
+                notifying={notifying}
+                noteDraft={noteDraft}
+                setNoteDraft={setNoteDraft}
+                savePatch={savePatch}
+                resendNotification={resendNotification}
+                mobile
+                onClose={() => setMobileDetailOpen(false)}
+              />
+            </Box>
+          </Box>
         </Box>
       </Box>
     </>

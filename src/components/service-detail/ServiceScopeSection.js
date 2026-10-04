@@ -85,12 +85,12 @@ function PayrollBoard({ items }) {
 }
 
 function ManagementQuestions({ items }) {
-  const prompts = ["Most", "Következő", "Eltérés", "Döntés"];
+  const labels = ["Most", "Következő", "Eltérés", "Döntés"];
   return (
     <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={{ base: 6, md: 8 }}>
       {items.slice(0, 4).map((item, index) => (
         <Box key={item.title} p={{ base: 6, md: 8 }} bg={index === 0 ? design.colors.ink : index === 3 ? design.colors.offWhite : design.colors.white} border={index === 0 || index === 3 ? "0" : "1px solid"} borderColor={design.colors.border} minH={{ md: "300px" }}>
-          <Text fontSize="10px" letterSpacing=".12em" textTransform="uppercase" color={design.colors.champagne}>{prompts[index]}</Text>
+          <Text fontSize="10px" letterSpacing=".12em" textTransform="uppercase" color={design.colors.champagne}>{labels[index]}</Text>
           <Heading as="h3" mt={6} fontSize={{ base: "26px", md: "34px" }} fontWeight="500" lineHeight="1.08" letterSpacing="-.048em" color={index === 0 ? "#fff" : design.colors.ink}>{item.title}</Heading>
           <Text mt={5} fontSize="12px" lineHeight="1.75" color={index === 0 ? "rgba(255,255,255,.5)" : design.colors.muted}>{item.text}</Text>
         </Box>

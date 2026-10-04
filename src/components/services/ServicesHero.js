@@ -15,10 +15,10 @@ export default function ServicesHero() {
                 <Text fontSize="10px" fontWeight="600" letterSpacing=".16em" textTransform="uppercase" color={design.colors.muted}>Szolgáltatások</Text>
               </Flex>
               <Heading as="h1" maxW="980px" fontSize={{ base: "50px", sm: "62px", md: "78px", lg: "88px", xl: "100px" }} fontWeight="500" lineHeight=".92" letterSpacing="-.07em" color={design.colors.ink}>
-                Nem szolgáltatáslistát adunk. <Box as="span" color={design.colors.champagne}>Pénzügyi hátteret.</Box>
+                A vállalkozás pénzügyi háttere <Box as="span" color={design.colors.champagne}>egy rendszerben.</Box>
               </Heading>
               <Text mt={8} maxW="690px" fontSize={{ base: "16px", md: "18px" }} lineHeight="1.72" color={design.colors.graphite}>
-                A könyvelés, az adózás, a bérszámfejtés és a vezetői információ ugyanannak a vállalkozásnak négy nézőpontja. Ezért nem külön csomagokban, hanem egymásra épülő szakmai háttérben gondolkodunk.
+                A könyvelés, az adózás, a bérszámfejtés és a vezetői információ egymásra épül. Az együttműködést úgy szervezzük, hogy ezek egy követhető pénzügyi folyamat részei legyenek.
               </Text>
             </Box>
 
@@ -38,7 +38,7 @@ export default function ServicesHero() {
             <Box position="absolute" left={{ base: 7, md: 9 }} right={{ base: 7, md: 9 }} bottom={{ base: 7, md: 9 }} color="#fff">
               <Text fontSize="9px" letterSpacing=".14em" textTransform="uppercase" color={design.colors.champagne}>Egy vállalkozás · egy összefüggő kép</Text>
               <Text mt={4} maxW="560px" fontSize={{ base: "30px", md: "43px" }} lineHeight="1.04" letterSpacing="-.052em">
-                A jó háttér nem látványosan bonyolult. Hanem csendben összetartja a működést.
+                A rendezett pénzügyi háttér a napi működésben is követhetővé teszi a fontos adatokat és feladatokat.
               </Text>
             </Box>
           </Box>

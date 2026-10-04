@@ -30,7 +30,6 @@ export function proxy(request) {
     destination.hash = fragment ? `#${fragment}` : "";
   }
 
-  // Explicit 301: this is a permanent SEO migration, not a temporary route change.
   return NextResponse.redirect(destination, 301);
 }
 
